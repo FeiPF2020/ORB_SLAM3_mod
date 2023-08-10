@@ -1,3 +1,32 @@
+
+
+# 前言：
+
+# 一、基本跑通源代码修改说明
+
+## 1.1 修改CmakeList.txt
+
+文件位置：`/home/pf/ORB_SLAM3`
+
+### 1.1.1 注释功能代码
+
+由于使用的是双目相机和IMU，直接注释掉其他功能代码仅仅保留双目imu的部分
+
+### 1.1.2 C++标准更改
+
+在C++11版里已经没有momotonic_clock了，有steady_clock作为替代。
+
+由C++11----> C++14进行编译，导致对应的时间计算的代码也要随之更改。
+
+### 1.1.3 OpenCV版本更改
+
+OpenCV > 4.4 not found
+
+修改CMakeList.txt中的find_package(OpenCV 4.4)即可
+
+## 1.2 更该后对应的CmakeList.txt
+
+```cmake
 cmake_minimum_required(VERSION 2.8)
 project(ORB_SLAM3)
 
@@ -402,3 +431,18 @@ endif()
 #             Examples_old/Stereo-Inertial/stereo_inertial_realsense_D435i.cc)
 #     target_link_libraries(stereo_inertial_realsense_D435i_old ${PROJECT_NAME})
 # endif()
+
+```
+
+代码一键运行：
+
+```
+./Stereo-Inertial/stereo_inertial_euroc ../Vocabulary/ORBvoc.txt ./Stereo-Inertial/EuRoC.yaml  ../../iData/EUROC_DataSets/MH_01_easy ./Stereo-Inertial/EuRoC_TimeStamps/MH01.txt 
+```
+
+
+
+# 二、轨迹保存代码修改
+
+# 三、计时代码修改
+
