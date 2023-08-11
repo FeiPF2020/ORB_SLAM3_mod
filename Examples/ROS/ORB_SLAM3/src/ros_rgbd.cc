@@ -42,6 +42,8 @@ public:
     void GrabRGBD(const sensor_msgs::ImageConstPtr& msgRGB,const sensor_msgs::ImageConstPtr& msgD);
 
     ORB_SLAM3::System* mpSLAM;
+    bool do_rectify;
+    cv::Mat M1l,M2l,M1r,M2r;
 };
 
 int main(int argc, char **argv)

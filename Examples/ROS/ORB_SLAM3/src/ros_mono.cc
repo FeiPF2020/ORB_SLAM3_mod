@@ -39,6 +39,8 @@ public:
     void GrabImage(const sensor_msgs::ImageConstPtr& msg);
 
     ORB_SLAM3::System* mpSLAM;
+    bool do_rectify;
+    cv::Mat M1l,M2l,M1r,M2r;
 };
 
 int main(int argc, char **argv)

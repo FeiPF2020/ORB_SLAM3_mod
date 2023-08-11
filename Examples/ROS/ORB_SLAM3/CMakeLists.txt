@@ -133,5 +133,3 @@ src/ros_stereo_inertial.cc
 target_link_libraries(Stereo_Inertial
 ${LIBS}
 )
-
-

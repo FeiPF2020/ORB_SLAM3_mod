@@ -44,6 +44,8 @@ public:
 
     queue<sensor_msgs::ImuConstPtr> imuBuf;
     std::mutex mBufMutex;
+    bool do_rectify;
+    cv::Mat M1l,M2l,M1r,M2r;
 };
 
 class ImageGrabber

@@ -41,9 +41,9 @@ LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 # MESSAGE("OPENCV VERSION:")
 # MESSAGE(${OpenCV_VERSION})
 
-find_package(OpenCV 3.4)
+find_package(OpenCV 4)
    if(NOT OpenCV_FOUND)
-      message(FATAL_ERROR "OpenCV 3.4.3 not found.")
+      message(FATAL_ERROR "OpenCV 4 not found.")
    endif()
 
 

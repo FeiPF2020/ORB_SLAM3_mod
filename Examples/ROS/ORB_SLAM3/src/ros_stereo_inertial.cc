@@ -44,6 +44,8 @@ public:
 
     queue<sensor_msgs::ImuConstPtr> imuBuf;
     std::mutex mBufMutex;
+    bool do_rectify;
+    cv::Mat M1l,M2l,M1r,M2r;
 };
 
 class ImageGrabber
@@ -137,14 +139,23 @@ int main(int argc, char **argv)
         cv::initUndistortRectifyMap(K_r,D_r,R_r,P_r.rowRange(0,3).colRange(0,3),cv::Size(cols_r,rows_r),CV_32F,igb.M1r,igb.M2r);
     }
 
-  // Maximum delay, 5 seconds
-  ros::Subscriber sub_imu = n.subscribe("/imu", 1000, &ImuGrabber::GrabImu, &imugb); 
-  ros::Subscriber sub_img_left = n.subscribe("/camera/left/image_raw", 100, &ImageGrabber::GrabImageLeft,&igb);
-  ros::Subscriber sub_img_right = n.subscribe("/camera/right/image_raw", 100, &ImageGrabber::GrabImageRight,&igb);
+  // // Maximum delay, 5 seconds
+  // ros::Subscriber sub_imu = n.subscribe("/imu", 1000, &ImuGrabber::GrabImu, &imugb); 
+  // ros::Subscriber sub_img_left = n.subscribe("/camera/left/image_raw", 100, &ImageGrabber::GrabImageLeft,&igb);
+  // ros::Subscriber sub_img_right = n.subscribe("/camera/right/image_raw", 100, &ImageGrabber::GrabImageRight,&igb);
 
+
+    // Maximum delay, 5 seconds
+  ros::Subscriber sub_imu = n.subscribe("/imu0", 1000, &ImuGrabber::GrabImu, &imugb); 
+  ros::Subscriber sub_img_left = n.subscribe("/cam0/image_raw", 100, &ImageGrabber::GrabImageLeft,&igb);
+  ros::Subscriber sub_img_right = n.subscribe("/cam1/image_raw", 100, &ImageGrabber::GrabImageRight,&igb);
   std::thread sync_thread(&ImageGrabber::SyncWithImu,&igb);
 
   ros::spin();
+
+  SLAM.Shutdown();
+  SLAM.SaveKeyFrameTrajectoryTUM("ORB-SLAM3-KeyFrameTrajectory.txt");
+  SLAM.SaveTrajectoryTUM("ORB-SLAM3-Trajectory.txt");
 
   return 0;
 }
@@ -282,5 +293,3 @@ void ImuGrabber::GrabImu(const sensor_msgs::ImuConstPtr &imu_msg)
   mBufMutex.unlock();
   return;
 }
-
-
